@@ -1,6 +1,11 @@
 <?php
 
-function insert($data) {
+if (userLogin()['level'] != 1){
+    header("location:" . $main_url . "error-page-php");
+    exit();
+}
+function insert($data) 
+{
     global $koneksi;
 
     $username   = strtolower(mysqli_real_escape_string($koneksi, $data['username']));
