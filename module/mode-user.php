@@ -1,6 +1,6 @@
 <?php
 
-if (userLogin(['level'] != 1)) {
+if (userLogin()['level'] != 1) {
     header("location:" . $main_url . "error-page.php");
     exit();
 }
@@ -14,7 +14,8 @@ function insert($data) {
     $password2  = mysqli_real_escape_string($koneksi, $data['password2']);
     $level      = mysqli_real_escape_string($koneksi, $data['level']);
     $address    = mysqli_real_escape_string($koneksi, $data['address']);
-
+    $gambar     = mysqli_real_escape_string($koneksi, $_FILES['image']['name']);
+ 
     // Cek konfirmasi password
     if ($password !== $password2) {
         echo "<script>
@@ -36,22 +37,19 @@ function insert($data) {
     $pass = password_hash($password, PASSWORD_DEFAULT);
 
     // Upload gambar jika ada
-    if ($_FILES['image']['name'] != '') {
+    if ($gambar != null) {
         $gambar = uploadimg();
-        if (!$gambar) {
-            // Jika upload gagal
-            return false;
-        }
     } else {
         $gambar = 'default.png';
     }
 
-    // Simpan ke database
-    $sqlUser = "INSERT INTO tbl_user VALUES (null, '$username', '$fullname', '$pass', '$address', '$level', '$gambar')";
-    if (!mysqli_query($koneksi, $sqlUser)) {
-        echo "<script>alert('Terjadi kesalahan saat menyimpan ke database: " . mysqli_error($koneksi) . "');</script>";
+    if ($gambar == '') {
         return false;
     }
+
+    // Simpan ke database
+    $sqlUser = "INSERT INTO tbl_user VALUES (null, '$username', '$fullname', '$pass', '$address', '$level', '$gambar')";
+    mysqli_query($koneksi, $sqlUser);
 
     return mysqli_affected_rows($koneksi);
 }
