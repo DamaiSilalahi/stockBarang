@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="<?= $main_url ?>dashboard.php" class="brand-link">
       <img src="<?= $main_url ?>asset/image/logo.jpg" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">codingline POS</span>
+      <span class="brand-text font-weight-light">Stok Barang</span>
     </a>
 
     <!-- Sidebar -->
